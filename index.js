@@ -12,8 +12,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const API_URL = "https://secrets-api.appbrewery.com";
 
 //TODO 1: Fill in your values for the 3 types of auth.
-const yourUsername = "danieldeveloper";
-const yourPassword = "tempero123";
+// const yourUsername = "";
+// const yourPassword = "";
 
 var yourAPIKey = "";
 const yourBearerToken = "";
