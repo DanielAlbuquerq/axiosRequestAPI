@@ -11,14 +11,14 @@
     *::before {
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
+      /* box-sizing: border-box; */
     }
 
 /* Grid_Template___________START */
       body {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        grid-template-rows: auto;
+        grid-template-rows: 1fr 1fr;
         grid-template-areas: 
           "registerContainer getContainer"
           "dataOutput dataOutput";
@@ -40,8 +40,17 @@
         border-radius: 10px; 
         padding: 12px; 
       }
-
+      input{
+        padding: 6px;
+      }
       .bearerToken_div{
+        margin-top: 20px;
+        background-color: #dd847a;
+        border-radius: 10px; 
+        padding: 12px; 
+      }
+
+      .apigenerator_div{
         margin-top: 20px;
         background-color: #dd847a;
         border-radius: 10px; 
@@ -50,42 +59,54 @@
 
       .get_container{
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+        justify-content: end; 
+        align-content: space-between;       
         background-color: #0BDB42;
-        padding-top: 10px;
+        padding-top: 20px;
         border-radius: 30px;
+        margin-left: 20px;
+      }
+    
+      .formScore_div{
+        margin: 10px;
       }
 
       .data_output{
         grid-area: dataOutput;
       }
 
-
-   
 /* Grid_Template___________END*/
 
       button {
-        padding: 15px 30px;
+        padding: 10px 20px;
         font-size: 16px;
         border: none;
         border-radius: 5px;
         color: white;
         cursor: pointer;
-        width: 170px;
+        width: 200px;
+        background-color: #bda7a7;
       }
 
       #noAuth {
-        background-color: #3498db;
+        margin: 10px;
+        background-color: #343fdb;
       }
       #noAuth:hover{
-        background-color: #85c0e7;
+        background-color: #a8a1ec;
       }
 
       #basicAuth {
-        background-color: #2ecc71;
+        margin: 10px;
+        background-color: #48395a;
+      }#basicAuth:hover{
+        background-color: #a8a1ec;
       }
 
+
       #apiKey {
+        margin-bottom: 5px;
         background-color: #f1c40f;
       }
       #apiKey:hover {
@@ -111,14 +132,7 @@
       a:hover {
         color: #bda7a7;
       }
-      a {
-        padding: 30px;
-        border-radius: 30px;
-        background-color: rgb(165, 57, 57);
-        text-decoration: none;
-        font-size: 40px;
-        color: white;
-      }
+
     </style>
   </head>
 
@@ -137,7 +151,7 @@
 
         <input type="text" placeholder="username" name="inputUserName" required>
         <input type="password" placeholder="password" name="inputPasswordUser" required>
-        <button style="padding: 8px;" type="submit" id="apiKey" class="form-submit">Send</button>
+        <button type="submit" id="apiKey" class="form-submit">Send</button>
         </form>
       <!-- ------------- -->
       
@@ -157,8 +171,10 @@
         </div>
       <!-- ------------- -->
 
-        <div>
-          <h3> <%= registerRes %>  </h3>
+        
+        <div class="apigenerator_div">
+          <h4>This Button generates an APIkey</h4>
+          <button id="bearerToken" onclick="window.location.href='/apigenerator'">Generate APIKey</button>
         </div>
 
       </div>
@@ -169,36 +185,37 @@
 <!-- The Right side has GREEN COLOR__ Its Content___ START-->
   <!------------------------getContainer-------------------------------->
       <div class="get_container">
-        <button type="submit" id="basicAuth" onclick="window.location.href='/basicAuth'">
-          Basic Auth
-        </button>
-
-        <button
-        type="submit"
-        id="noAuth"
-        onclick="window.location.href='/noAuth'"
-      >
-        No Auth
-      </button>
-
-        <form method="POST" action="/apiKey">
-          <select name="embaressScore" class="form-select">
-            <option value="" data-display="Select">Random Embarassment</option>
-            <% for (let i=1; i<9; i++) { %>
-            <option value="<%=i%>"><%=i%></option>
-            <% } %>
-          </select>
-
-          <button type="submit" id="apiKey" class="form-submit">
-            <span>API Key</span>
+        <div class="basicAuth_div">
+          <button type="submit" id="basicAuth" onclick="window.location.href='/basicAuth'">
+            Basic Auth
           </button>
-        </form>
+        </div>
+
+        <div class="noAuth_div">
+          <button type="submit" id="noAuth" onclick="window.location.href='/noAuth'">
+              No Auth
+          </button>
+        </div>
+
+        <div class="formScore_div">
+          <form method="POST" action="/apiKey">
+            <button type="submit" id="apiKey" class="form-submit">
+              <span>API Key</span>
+            </button>
+
+            <select name="embaressScore" class="form-select">
+              <option value="" data-display="Select">Random Embarassment</option>
+              <% for (let i=1; i<9; i++) { %>
+              <option value="<%=i%>"><%=i%></option>
+              <% } %>
+            </select>
+  
+
+          </form>
+        </div>
+
 
         <!-- <button id="apiKey" onclick="window.location.href='/apiKey'">API Key</button> -->
-
-        <div class="_apigeneratorDiv">
-          <a href="/apigenerator">Generate APIKey</a>
-        </div>
       </div>
   <!-------------------------------------------------------->
 <!-- The left side has GREEN COLOR__ Its Content___ END-->
