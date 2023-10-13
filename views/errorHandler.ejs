@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ErrorPage</title>
+    
+    <style>
+        body{
+            display: flex;
+            justify-content: center;
+            padding-top: 5%;
+        }
+
+        .errorContainer{
+            display: flex;
+            justify-content: center;
+            border-radius: 30px;
+            background-color: rgb(128, 30, 30);
+            height: 300px;
+            width: 400px;
+        }
+
+        .content_div{
+            background-color: rgb(230, 230, 230);
+            width: 70%;
+            height: 100%;
+        }
+
+        h3{
+            text-align: center;
+            padding-top: 30px;
+            background-color: rgb(230, 230, 230);
+            
+
+        }
+
+
+    </style>
+</head>
+
+
+<body>
+    <div class="errorContainer">
+        <div class="content_div">
+                <h3><%= errorMessage %></h3>
+                <h3>Try different username and password</h3>
+        </div>
+    </div>
+</body>
+</html>
