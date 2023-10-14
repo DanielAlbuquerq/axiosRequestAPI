@@ -10,19 +10,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const API_URL = "https://secrets-api.appbrewery.com";
 
-//TODO 1: Fill in your values for the 3 types of auth.
-// const yourUsername = "";
-// const yourPassword = "";
-
-var yourAPIKey = "";
-const yourBearerToken = "";
+//TODO 1: Values for the 3 types of auth.
 //___________________________________________________
 var userName = null;
 var passwordUser = null;
 var registerKey= null;
 var registerRes = null;
 var bearerKey = null;
-var content = "Empty";
+var content = "Heres the Output from the green side of the page";
 //____________________________________________________
 
 app.get("/", (req, res) => {
@@ -64,7 +59,7 @@ app.post("/registerUser", async (req, res) => {
 });
 //____________________________________________________
 
-app.get("/bearerToken", (req, res) => {
+app.get("/bearerToken", async (req, res) => {
   // Generates an authentication token for a user. If the user does not exist or the password is incorrect, it will return an error.
   try {
 
@@ -73,17 +68,14 @@ app.get("/bearerToken", (req, res) => {
       password: passwordUser,
     });
 
-    const response = axios.post(API_URL + "/get-auth-token", params, {
+    const response = await axios.post(API_URL + "/get-auth-token", params, {
       headers: {
         "content-type": "application/json",
       },
     })
-    .then(() => {
-      bearerKey = JSON.stringify(response.data.token);
-      console.log("Here's the" + yourBearerToken);
 
-      res.render("index.ejs", { content,  registerRes, registerKey, bearerKey });
-    });
+    bearerKey = response.data.token;
+    res.render("index.ejs", { content,  registerRes, registerKey, bearerKey });
 
   } catch (err) {
     res.render("errorHandler.ejs", {errorMessage: err.message})
@@ -97,15 +89,17 @@ app.get("/bearerToken", (req, res) => {
 app.get("/apigenerator", async (req, res) => {
   try {
     const result = await axios.get(API_URL + "/generate-api-key");
-    registerKey = JSON.stringify(result.data.apiKey);
 
-    res.render("index.ejs", {content:content , registerRes, registerKey, bearerKey})
+    registerKey = result.data.apiKey
+
+    res.render("index.ejs", {content, registerRes, registerKey, bearerKey})
   } catch (err) {
     console.error("Failed to make request:" + err.message);
   }
 });
 
 //____________________________________________________
+
 app.get("/noAuth", async (req, res) => {
   try {
     const result = await axios.get(API_URL + "/random");
@@ -146,6 +140,7 @@ app.get("/basicAuth", async (req, res) => {
 });
 
 //____________________________________________________
+
 app.post("/apiKey", async (req, res) => {
   try {
     const score = req.body.embaressScore;
@@ -153,11 +148,8 @@ app.post("/apiKey", async (req, res) => {
 
     const response = await axios.get(
       API_URL +
-        `/filter?score=${score}&apiKey=f8943c7c-fb99-4bea-856c-8964a550a5e2`
+        `/filter?score=${score}&apiKey=${registerKey}`
     );
-
-    // console.log(apiResult)
-    // yourAPIKey = apiResult
 
     //console.log just to be sure about the api response.
     console.log("data received");
@@ -168,6 +160,7 @@ app.post("/apiKey", async (req, res) => {
     res.render("index.ejs", {
       content: JSON.stringify(response.data[randomSecret].secret), registerRes, registerKey, bearerKey
     });
+
   } catch (error) {
     console.error("Failed to make request:", error.message);
     res.render("index.ejs", { error: error.message });
@@ -175,6 +168,7 @@ app.post("/apiKey", async (req, res) => {
   //This block code here hit up the /filter endpoint
   //Filter for all secrets with an embarassment score selected
 });
+
 //____________________________________________________
 
 // const config = {
