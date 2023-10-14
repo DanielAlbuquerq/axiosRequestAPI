@@ -35,17 +35,22 @@
 
         }
 
-
+        button{
+            font-size: 15px;
+        }
     </style>
 </head>
 
 
 <body>
     <div class="errorContainer">
+        <button onclick="window.location.href='/'">back</button>
         <div class="content_div">
                 <h3><%= errorMessage %></h3>
-                <h3>Try different username and password</h3>
+                <h3>Try different username and password <br><br>
+                or create one</h3>
         </div>
+       
     </div>
 </body>
 </html>

@@ -74,6 +74,9 @@
 
       .data_output{
         grid-area: dataOutput;
+        background-color: #2887c7;
+        margin-top: 20px;
+        padding: 20px;
       }
 
 /* Grid_Template___________END*/
@@ -123,12 +126,6 @@
       }
       /* ------- */
 
-      .response-area {
-        margin-top: 20px;
-        background-color: white;
-        padding: 20px;
-      }
-
       a:hover {
         color: #bda7a7;
       }
@@ -168,6 +165,11 @@
           <button id="bearerToken" onclick="window.location.href='/bearerToken'">
             Bearer Token
           </button>
+          <% if (bearerKey) { %>
+            <div class="successMessage_div">
+              <h4>Your bearerKey: <%=bearerKey%></h4>
+            </div>
+          <% } %>
         </div>
       <!-- ------------- -->
 
@@ -175,6 +177,11 @@
         <div class="apigenerator_div">
           <h4>This Button generates an APIkey</h4>
           <button id="bearerToken" onclick="window.location.href='/apigenerator'">Generate APIKey</button>
+          <% if (registerKey) { %>
+            <div class="successMessage_div">
+              <h4>Your apiKey: <%=registerKey%></h4>
+            </div>
+          <% } %>
         </div>
 
       </div>
@@ -220,10 +227,12 @@
   <!-------------------------------------------------------->
 <!-- The left side has GREEN COLOR__ Its Content___ END-->
 
+<!-- Here is the DownSide of the Page COLOR__ Its Content__START-->
 <!----------------------dataOutput---------------------------------->
     <div class="response-area data_output">
       <p><%=content%></p>
     </div>
 <!-------------------------------------------------------->
+<!-- Here is the DownSide of the Page COLOR__ Its Content__END-->
   </body>
 </html>
