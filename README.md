@@ -5,7 +5,7 @@
 
 The API is rate limited to 100 requests every 15 minutes.<br>
 All user submitted data (including registration, tokens, usernames, passwords, and secrets) are erased on a regular basis.<br>
-This API is just for education purposes, please don't rely on it for production.  <br>  
+This API is just for education purposes.  <br>  
 ______________________________________________________________________________________________________________________
 #### Buttons Functionality.
 
