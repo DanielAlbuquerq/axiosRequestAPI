@@ -17,6 +17,9 @@ Returns a random secret. No authentication is required.
 #### RANDOM SECRET button
 Returns a random secret with a particular embarrassment score or higher but you need to generate an APIkey.
 
+#### SECRETSByID button
+Returns the secret with the specified ID. Bearer token authentication is required.
+
 _______________________________________________________________________________________________________________________
 
 
