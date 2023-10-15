@@ -7,17 +7,18 @@ The API is rate limited to 100 requests every 15 minutes.<br>
 All user submitted data (including registration, tokens, usernames, passwords, and secrets) are erased on a regular basis.<br>
 This API is just for education purposes, please don't rely on it for production.  <br>  
 ______________________________________________________________________________________________________________________
+#### Buttons Functionality.
 
-##### BASIC AUTH button
-returns all secrets on page 2, but you need to create a username and password to authenticate.
+##### <kbd> <br> BASIC AUTH  <br> </kbd> 
+Returns all secrets on page 2, but you need to create a username and password to authenticate.
 
-#### NO AUTH button
+#### <kbd> <br>NO AUTH <br> </kbd> 
 Returns a random secret. No authentication is required.
 
-#### RANDOM SECRET button
+#### <kbd> <br>RANDOM SECRET<br> </kbd> 
 Returns a random secret with a particular embarrassment score or higher but you need to generate an APIkey.
 
-#### SecretsByID button
+#### <kbd> <br>SecretsByID<br> </kbd>
 Returns the secret with the specified ID. Bearer token authentication is required.
 
 _______________________________________________________________________________________________________________________
