@@ -1,3 +1,4 @@
+//______Welcome to the Secrets API. This API allows you to manage and retrieve secrets anonymously.
 import express, { response } from "express";
 import axios from "axios";
 import bodyParser from "body-parser";
@@ -8,39 +9,48 @@ const port = 3001;
 // Setted { extended: true } It allows the bodyParser to accept json like data within the form data including nested objects. e.g. { person: { name: Adam } }
 app.use(bodyParser.urlencoded({ extended: true }));
 
+
+//___api url to use in all axios requests.
 const API_URL = "https://secrets-api.appbrewery.com";
 
+
 //TODO 1: Values for the 3 types of auth.
-//___________________________________________________
+//_______________________________________________________.
 var userName = null;
 var passwordUser = null;
 var registerKey= null;
 var registerRes = null;
 var bearerKey = null;
-var content = "Heres the Output from the green side of the page";
-//____________________________________________________
+var content = "Here's the Output from the buttons on green side of the page";
+//____________________________________________________.
 
+// This get method initialize the page with all parameters null;
 app.get("/", (req, res) => {
   res.render("index.ejs", { content: content, registerRes, registerKey, bearerKey});
 });
 
-//____________________________________________________
-
+//____________________________________________________.
+ 
 app.post("/registerUser", async (req, res) => {
+   // Registers a new user. If the username is already taken, it will return an error.
   try {
+
+    // req.body.inputUserName is he data coming from the form body.
     userName = req.body.inputUserName;
     passwordUser = req.body.inputPasswordUser;
 
-    //console.log To make sure the Data was received from Form
+    //console.log To make sure the Data was received from Form.
     console.log(userName, passwordUser);
 
+//The data come from the form in index.ejs and are formatted to JSON and stored to a variable to use in the Axios post method.
     const params = JSON.stringify({
       username: userName,
       password: passwordUser,
     });
 
     console.log(params);
-    // Registers a new user. If the username is already taken, it will return an error.
+
+    // The params variable is sent to API with Axios post request to register a user;
     await axios
       .post(API_URL + "/register", params, {
         headers: {
@@ -48,8 +58,7 @@ app.post("/registerUser", async (req, res) => {
         },
       })
       .then((response) => {
-        const responseAPI = response.data.success;
-        registerRes = responseAPI;
+        const registerRes = response.data.success;
 
         res.render("index.ejs", { content: content, registerRes, registerKey, bearerKey });
       });
@@ -61,6 +70,7 @@ app.post("/registerUser", async (req, res) => {
 
 app.get("/bearerToken", async (req, res) => {
   // Generates an authentication token for a user. If the user does not exist or the password is incorrect, it will return an error.
+ 
   try {
 
     const params = JSON.stringify({
@@ -87,6 +97,8 @@ app.get("/bearerToken", async (req, res) => {
 //____________________________________________________
 
 app.get("/apigenerator", async (req, res) => {
+  // Generates a new API key.
+
   try {
     const result = await axios.get(API_URL + "/generate-api-key");
 
@@ -101,6 +113,8 @@ app.get("/apigenerator", async (req, res) => {
 //____________________________________________________
 
 app.get("/noAuth", async (req, res) => {
+// Returns a random secret. No authentication is required.
+
   try {
     const result = await axios.get(API_URL + "/random");
     res.render("index.ejs", {content: JSON.stringify(result.data), registerRes, registerKey, bearerKey
@@ -114,12 +128,14 @@ app.get("/noAuth", async (req, res) => {
   //I use JSON.stringify to turn the JS object from axios into a string.
 });
 
-//____________________________________________________
+//______________________________________________________
+
 app.get("/basicAuth", async (req, res) => {
   // Returns all secrets, paginated. Basic authentication is required.
 
   try {
     const result = await axios.get(
+
       //Specified only secrets from page 2
       API_URL + "/all?page=2",
       {
@@ -129,19 +145,23 @@ app.get("/basicAuth", async (req, res) => {
         },
       }
     );
+
     //console.log just to be sure about the api response.
     console.log("data received");
     res.render("index.ejs", { content: JSON.stringify(result.data), registerRes, registerKey, bearerKey });
+
   } catch (error) {
     res.render("errorHandler.ejs", { errorMessage: error });
     // res.status(404).send(error.message);
   }
-  //Code to hit up the /all endpoint
+  //Code to hit up the /all endpoint.
 });
 
-//____________________________________________________
+//______________________________________________________.
 
 app.post("/apiKey", async (req, res) => {
+  // Returns a random secret with a particular embarrassment score or higher.  API key authentication is required.
+
   try {
     const score = req.body.embaressScore;
     console.log(score);
@@ -154,42 +174,44 @@ app.post("/apiKey", async (req, res) => {
     //console.log just to be sure about the api response.
     console.log("data received");
 
+    //I used Math.floor/random to generate a random number based on api data length to display a random secret. 
     const randomNumberBasedOnData = response.data.length;
     const randomSecret = Math.floor(Math.random() * randomNumberBasedOnData);
 
     res.render("index.ejs", {
-      content: JSON.stringify(response.data[randomSecret].secret), registerRes, registerKey, bearerKey
-    });
+      content: JSON.stringify(response.data[randomSecret].secret), registerRes, registerKey, bearerKey});
 
   } catch (error) {
     console.error("Failed to make request:", error.message);
-    res.render("index.ejs", { error: error.message });
+    res.render("errorHandler.ejs", { errorMessage: error.message});
   }
-  //This block code here hit up the /filter endpoint
-  //Filter for all secrets with an embarassment score selected
+
+  //This block code here hit up the /filter endpoint.
+  //Filter for all secrets with an embarassment score selected from the "<select name="embaressScore> options on index.ejs."
 });
 
 //____________________________________________________
 
-// const config = {
-//   headers: {Authorization: `Bearer ${yourBearerToken}`},
-// }
+//Returns the secret with the specified ID. Bearer token authentication is required.
+app.get("/secretsById", async(req, res) => {
+  try {
 
-//TODO 5: Write your code here to hit up the /secrets/{id} endpoint
+    const response = await axios.get(API_URL + "/secrets/42", {
+      // headers based on bearer model request.
+      headers: {
+        Authorization: `Bearer ${bearerKey}`
+      }
+    })
 
-//and get the secret with id of 42
+    res.render("index.ejs", { content: JSON.stringify(response.data), registerRes, registerKey, bearerKey} )
+  } catch (error) {
 
-//HINT: This is how you can use axios to do bearer token auth:
+    console.error("Failed to make request:", error.message);
+    res.render("errorHandler.ejs", { errorMessage: error});
+  }
+})
 
-// https://stackoverflow.com/a/52645402
-/*
-  axios.get(URL, {
-    headers: { 
-      Authorization: `Bearer <YOUR TOKEN HERE>` 
-    },
-  });
-  */
-
+//__________________________________________________________
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

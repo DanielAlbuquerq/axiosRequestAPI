@@ -109,6 +109,14 @@
         background-color: #a8a1ec;
       }
 
+      #secretById{
+        position: absolute; 
+        align-self: end;
+        margin: 20px;
+        background-color: #e74c3c;
+      }#secretById:hover{
+        background-color: #f16885;
+      }
 
       #apiKey {
         margin-bottom: 5px;
@@ -220,6 +228,10 @@
             </select>
           </form>
         </div>
+
+        <button id="secretById" onclick="window.location.href='/secretsById'">
+          SecretsById
+        </button>
 
         <div style="position: absolute; align-self: center; margin-right: 10%;" class="madeBY_div" id="navbarNav">
           <div class="badge bg-warning" style="color:floralwhite; margin: 0px; background-color: rgb(148, 20, 20); width: 70px; padding: 4px; border-radius: 40px;">Made by:</div>
