@@ -2,9 +2,10 @@
 import express, { response } from "express";
 import axios from "axios";
 import bodyParser from "body-parser";
+import 'dotenv/config';
 
 const app = express();
-const port = 3001;
+const port = process.env.PORT || 3001;
 
 // Setted { extended: true } It allows the bodyParser to accept json like data within the form data including nested objects. e.g. { person: { name: Adam } }
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -21,8 +22,9 @@ var passwordUser = null;
 var registerKey= null;
 var registerRes = null;
 var bearerKey = null;
-var content = "Here's the Output from the buttons on green side of the page";
 //____________________________________________________.
+
+var content = "Here's the Output from the buttons on green side of the page";
 
 // This get method initialize the page with all parameters null;
 app.get("/", (req, res) => {
@@ -35,14 +37,14 @@ app.post("/registerUser", async (req, res) => {
    // Registers a new user. If the username is already taken, it will return an error.
   try {
 
-    // req.body.inputUserName is he data coming from the form body.
+    // req.body.inputUserName is the data coming from the form body on index.ejs file.
     userName = req.body.inputUserName;
     passwordUser = req.body.inputPasswordUser;
 
     //console.log To make sure the Data was received from Form.
     console.log(userName, passwordUser);
 
-//The data come from the form in index.ejs and are formatted to JSON and stored to a variable to use in the Axios post method.
+//The data come from the form on index.ejs and are formatted to JSON and stored to a variable to use in the Axios post method.
     const params = JSON.stringify({
       username: userName,
       password: passwordUser,
@@ -215,3 +217,5 @@ app.get("/secretsById", async(req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+
+//Thanks for Read This :)
