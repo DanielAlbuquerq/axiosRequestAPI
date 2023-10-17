@@ -2,11 +2,13 @@
 
 
 #### Secrets API Project: <a href="http://example.com/" target="_blank"> https://secretsaxiosapi-b3e9cd976acb.herokuapp.com/</a>
-#### Welcome to the Secrets API. This API allows you to manage and retrieve secrets, id and more details. Please read the documentation below for details on how to interact.
+#### Welcome to the Secrets API.
+
+Using the Express/Node.js, with the Axios HTTP client, that integrates a public API
+This API allows you to manage and retrieve secrets and more details. Please read the documentation below for details on how to interact.
 
 The API is rate limited to 100 requests every 15 minutes.<br>
-All user submitted data (including registration, tokens, usernames, passwords, and secrets) are erased on a regular basis.<br>
-This API is just for education purposes.  <br>  
+All user submitted data (including registration, tokens, usernames, passwords, and secrets) are erased on a regular basis.<br>  
 ______________________________________________________________________________________________________________________
 #### Buttons Functionality.
 
